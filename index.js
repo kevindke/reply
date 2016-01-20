@@ -41,24 +41,24 @@ var get = exports.get = function(options, callback) {
     return callback(new Error("Please pass a valid options object."))
 
   /**
-  * Set recorded and saved answers inputted by user.
-  */
+    * Set recorded and saved answers inputted by user.
+    */
   var answers = {},
       stdin = process.stdin,
       stdout = process.stdout,
       fields = Object.keys(options);
 
   /**
-  * Closes the overall prompts and input.
-  */
+    * Closes the overall prompts and input.
+    */
   var done = function() {
     close_prompt();
     callback(null, answers);
   }
 
   /**
-  * Closes the prompted message.
-  */
+    * Closes the prompted message.
+    */
   var close_prompt = function() {
     stdin.pause();
     if (!rl) return; // stops prompt if readline is non existant 
@@ -67,11 +67,11 @@ var get = exports.get = function(options, callback) {
   }
 
   /**
-  * Gets the default value of the passed object.
-  * @param {Object} key: retrieves the type of object within the array.
-  * @param {Object} partial answers: gets the default partial answers to display for answers that don't fully meet the needs of an option. 
-  * @return passed object and value from the options.
-  */
+    * Gets the default value of the passed object.
+    * @param {Object} key: retrieves the type of object within the array.
+    * @param {Object} partial answers: gets the default partial answers to display for answers that don't fully meet the needs of an option. 
+    * @return passed object and value from the options.
+    */
   var get_default = function(key, partial_answers) {
     if (typeof options[key] == 'object')
       return typeof options[key].default == 'function' ? options[key].default(partial_answers) : options[key].default;
@@ -80,10 +80,10 @@ var get = exports.get = function(options, callback) {
   }
 
   /**
-  * Assumes the user's input and matches it to a value based on the contents of the string.
-  * @param {String} reply: user's answer to the message.
-  * @return assumed value of the user's answer.
-  */
+    * Assumes the user's input and matches it to a value based on the contents of the string.
+    * @param {String} reply: user's answer to the message.
+    * @return assumed value of the user's answer.
+    */
   var guess_type = function(reply) {
 
     if (reply.trim() == '') // blank response, leading to default value 
@@ -99,10 +99,10 @@ var get = exports.get = function(options, callback) {
   }
 
   /**
-  * Tests if the passed answer is equal to either the regex or object value from the options.
-  * @param {Object} key: value of the key from the chosen option.
-  * @param {Object} answer: answer from chosen object from options.
-  */
+    * Tests if the passed answer is equal to either the regex or object value from the options.
+    * @param {Object} key: value of the key from the chosen option.
+    * @param {Object} answer: answer from chosen object from options.
+    */
   var validate = function(key, answer) {
 
     if (typeof answer == 'undefined')
@@ -121,22 +121,22 @@ var get = exports.get = function(options, callback) {
   }
 
   /**
-  * Displays the error message of the passed key's value.
-  * @param {Object} key: value of the key from the chosen option.
-  */
+    * Displays the error message of the passed key's value.
+    * @param {Object} key: value of the key from the chosen option.
+    */
   var show_error = function(key) {
     var str = options[key].error ? options[key].error : 'Invalid value.';
 
     if (options[key].options)
         str += ' (options are ' + options[key].options.join(', ') + ')';
 
-    stdout.write("\033[31m" + str + "\033[0m" + "\n");
+    stdout.write("0x33[31m" + str + "0x33[0m" + "\n");
   }
 
   /**
-  * Displays the message of the passed key's value.
-  * @param {Object} key: value of the key from the chosen option.
-  */
+    * Displays the message of the passed key's value.
+    * @param {Object} key: value of the key from the chosen option.
+    */
   var show_message = function(key) {
     var msg = '';
 
@@ -146,14 +146,14 @@ var get = exports.get = function(options, callback) {
     if (options[key].options) // displays options
       msg += '(options are ' + options[key].options.join(', ') + ')';
 
-    if (msg != '') stdout.write("\033[1m" + msg + "\033[0m\n");
+    if (msg != '') stdout.write("0x33[1m" + msg + "0x33[0m\n");
   }
 
   /**
-  * Waits for user's input and masks the input as asterisks.
-  * @param {String} prompt: displayed message asking for password.
-  * @param {function} callback(err, answer): takes in the input and checks if password matches.
-  */
+    * Waits for user's input and masks the input as asterisks.
+    * @param {String} prompt: displayed message asking for password.
+    * @param {function} callback(err, answer): takes in the input and checks if password matches.
+    */
   // taken from commander lib
   var wait_for_password = function(prompt, callback) {
 
@@ -161,10 +161,10 @@ var get = exports.get = function(options, callback) {
         mask = '*';
 
     /**
-    * Allows the user to backspace on their password input without breaking.
-    * @param {String} c: action typed c to close prompt when needed.
-    * @param {String} key: character entered in by the user.
-    */
+      * Allows the user to backspace on their password input without breaking.
+      * @param {String} c: action typed c to close prompt when needed.
+      * @param {String} key: character entered in by the user.
+      */
     var keypress_callback = function(c, key) {
 
       if (key && (key.name == 'enter' || key.name == 'return')) {
@@ -181,7 +181,7 @@ var get = exports.get = function(options, callback) {
         buf = buf.substr(0, buf.length-1);
         var masked = '';
         for (i = 0; i < buf.length; i++) { masked += mask; }
-        stdout.write('\r\033[2K' + prompt + masked);
+        stdout.write('\r0x33[2K' + prompt + masked);
       } else {
         stdout.write(mask);
         buf += c;
@@ -192,7 +192,7 @@ var get = exports.get = function(options, callback) {
     stdin.on('keypress', keypress_callback);
   }
 
-    /**
+  /**
     * Checks the input to see if it can go onto the next prompt.
     * @param {int} index: scan through the array of questions to prompt the user with.
     * @param {Object} current key: current object of the indexed option from the array.
@@ -210,9 +210,9 @@ var get = exports.get = function(options, callback) {
   }
 
   /**
-  * Checks if the conditions have been met.
-  * @param {Object} conditions: answer meets the contraints of the key's values.
-  */
+    * Checks if the conditions have been met.
+    * @param {Object} conditions: answer meets the contraints of the key's values.
+    */
   var dependencies_met = function(conds) {
     for (var key in conds) {
       var cond = conds[key];
@@ -232,11 +232,11 @@ var get = exports.get = function(options, callback) {
   }
 
   /**
-  * Gets the next indexed question in the array of options.
-  * @param {Object} index: position of the current question in the array.
-  * @param {Object} previous key: the last question asked through the index.
-  * @param {Object} answer: value of the inputted answer.
-  */
+    * Gets the next indexed question in the array of options.
+    * @param {Object} index: position of the current question in the array.
+    * @param {Object} previous key: the last question asked through the index.
+    * @param {Object} answer: value of the inputted answer.
+    */
   var next_question = function(index, prev_key, answer) {
     if (prev_key) answers[prev_key] = answer; // sets last key to the current answer
 

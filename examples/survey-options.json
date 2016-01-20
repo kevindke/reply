@@ -1,0 +1,33 @@
+{
+  "name": {
+  	"message": "What is your name?"
+  },
+  "S's": {
+    "message": "How many S's are there in 'Do you see Sally selling sea shells down by the sea shore?'",
+    "type": "number",
+    "options": [1,2,3,4,5,6,7,8,9,10]
+  },
+  "rockstar": {
+    "type": "confirm",
+    "message": "Are you smart?",
+    "default": "yes"
+  },
+  "password": {
+    "type": "password",
+    "message": "Thanks to reply, you can type passwords in secrecy. Try it out! You will be able to see the passwords when we confirm."
+  },
+  "boogers": {
+    "message": "Have you ever eaten your own boogers? You can skip this one if you want. You should skip this one.",
+    "options": ["yes", "no"],
+    "allow_empty": true
+  },
+  "college": {
+    "message": "Do you attend the University of Washington?",
+    "type": "boolean",
+    "default": true
+  },
+  "major": {
+    "message": "What are you or plan on majoring in?",
+    "default": "Informatics"
+  }
+}
